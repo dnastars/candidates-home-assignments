@@ -61,11 +61,32 @@ const handleUpload = (hook) => {
 };
 
 const validateXlsWeights = (hook) => {
+
+    // Parse the buffer from the loaded file
     const workSheetsFromBuffer = xlsx.parse(hook.data.buffer);
     var total = 0;
-    for (var i = 4; i >= 0; i--) {
-      total += workSheetsFromBuffer[0].data[35+i][5]
+
+    // Find the line index of "Name" and "Weights" elements
+    for (var i = 0; i <= workSheetsFromBuffer[0].data.length ; i++) {
+      name_index = workSheetsFromBuffer[0].data[i].indexOf("Name") 
+      w_index = workSheetsFromBuffer[0].data[i].indexOf("Weights")
+
+      if (w_index !== -1) {
+        first_coin_pos = i+1
+        break;
+      }
     }
+    
+    // Extract the weights, only if the name element is a string
+    for (var i = first_coin_pos; i <= workSheetsFromBuffer[0].data.length ; i++) {
+      if (typeof(workSheetsFromBuffer[0].data[i][name_index]) == "string") {
+        total += workSheetsFromBuffer[0].data[i][w_index]
+      }
+      else {
+        break
+      }
+    }
+
     if (total > 100) {
       console .log("Error: The sum of the weights is superior to 100%!!")
     }
