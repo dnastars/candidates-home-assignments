@@ -64,10 +64,13 @@ const validateXlsWeights = (hook) => {
     const workSheetsFromBuffer = xlsx.parse(hook.data.buffer);
     var total = 0;
     for (var i = 4; i >= 0; i--) {
-        total += workSheetsFromBuffer[0].data[35+i][5]
+      total += workSheetsFromBuffer[0].data[35+i][5]
     }
     if (total > 100) {
-      console .log("Error: The sum of the weight is superior to 100%!!")
+      console .log("Error: The sum of the weights is superior to 100%!!")
+    }
+    else {
+      console .log("The sum of the weights is " + total*100)
     }
 };
 
