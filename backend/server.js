@@ -14,6 +14,9 @@ const blobService = require("feathers-blob");
 const fs = require("fs-blob-store");
 const blobStorage = fs(__dirname + "/uploads");
 
+const xlsx = require('node-xlsx').default;
+const uri2path = require('file-uri-to-path');
+
 // Feathers app
 const app = feathers();
 
@@ -49,16 +52,23 @@ app.use(
 );
 
 const handleUpload = (hook) => {
-  if (!hook.data.uri && hook.params.file) {
+  if (!hook.data.buffer && hook.params.file) {
     const file = hook.params.file;
-    const uri = dauria.getBase64DataURI(file.buffer, file.mimetype);
-    hook.data = { uri: uri };
+    //const uri = dauria.getBase64DataURI(file.buffer, file.mimetype);
+    hook.data = { buffer: file.buffer};
     hook.data.id = hook.params.file.originalname;
   }
 };
 
 const validateXlsWeights = (hook) => {
-  console.log("implement me");
+    const workSheetsFromBuffer = xlsx.parse(hook.data.buffer);
+    var total = 0;
+    for (var i = 4; i >= 0; i--) {
+        total += workSheetsFromBuffer[0].data[35+i][5]
+    }
+    if (total > 100) {
+      console .log("Error: The sum of the weight is superior to 100%!!")
+    }
 };
 
 app.service("/uploads").before({
