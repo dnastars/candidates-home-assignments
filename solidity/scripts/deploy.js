@@ -70,11 +70,11 @@ function saveFrontendFiles(token) {
     JSON.stringify({ Portfolio: token.address }, undefined, 2)
   );
 
-  const TokenArtifact = artifacts.readArtifactSync("Portfolio");
+  const PortfolioArtifact = artifacts.readArtifactSync("Portfolio");
 
   fs.writeFileSync(
     contractsDir + "/Portfolio.json",
-    JSON.stringify(TokenArtifact, null, 2)
+    JSON.stringify(PortfolioArtifact, null, 2)
   );
 }
 
