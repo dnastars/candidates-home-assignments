@@ -29,13 +29,15 @@ describe("Portfolio contract", function () {
             let symbol = ethers.utils.formatBytes32String("TOKA") 
             let address = await sender.tokens(symbol); 
             expect(address).to.equal(TOKA.address);
+            expect(await sender.symbol_list(0)).to.equal(symbol)
         });
 
         it("Should remove a supported token", async function () {  
             let symbol = ethers.utils.formatBytes32String("TOKA") 
             await sender.remove_token(symbol);  
             let address = await sender.tokens(symbol);  
-            expect(address).to.equal('0x0000000000000000000000000000000000000000');  
+            expect(address).to.equal('0x0000000000000000000000000000000000000000');
+            expect(await sender.symbol_list.length).to.equal(0)
         });
     });
 
