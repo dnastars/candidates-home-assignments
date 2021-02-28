@@ -1,4 +1,5 @@
 const fs = require("fs");
+require("@nomiclabs/hardhat-ethers");
 
 // This file is only here to make interacting with the Dapp easier,
 // feel free to ignore it if you don't need it.
@@ -25,22 +26,22 @@ task("faucet", "Sends ETH and tokens to an address")
     const addressJson = fs.readFileSync(addressesFile);
     const address = JSON.parse(addressJson);
 
-    if ((await ethers.provider.getCode(address.Token)) === "0x") {
+    if ((await ethers.provider.getCode(address.Portfolio)) === "0x") {
       console.error("You need to deploy your contract first");
       return;
     }
 
-    const token = await ethers.getContractAt("Token", address.Token);
-    const [sender] = await ethers.getSigners();
+    const Portfolio = await ethers.getContractAt("Portfolio", address.Portfolio);
+    const [owner] = await ethers.getSigners();
+    
+    console.log(`Transferred Portfolio ownership to ${receiver}`);
+    await Portfolio.transferOwnership(receiver)
 
-    const tx = await token.transfer(receiver, 100);
-    await tx.wait();
-
-    const tx2 = await sender.sendTransaction({
+    const tx4 = await owner.sendTransaction({
       to: receiver,
       value: ethers.constants.WeiPerEther,
     });
-    await tx2.wait();
+    await tx4.wait();
 
-    console.log(`Transferred 1 ETH and 100 tokens to ${receiver}`);
+    console.log(`Transferred 1 ETH to ${receiver}`);
   });
