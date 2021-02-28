@@ -13,7 +13,7 @@ contract Portfolio  is Ownable, Pausable {
     // Map token symbols to token adresses
     mapping(bytes32 => address) public tokens;
 
-    // Map all users adress to their corresponding transfers index
+    // Map all users adress to their corresponding transfers indexes
     mapping(address => uint[]) public transactionIndexesToSender;  
 
     // Define a transfer struct
@@ -38,7 +38,7 @@ contract Portfolio  is Ownable, Pausable {
     }
 
     /**  
-    * @dev To add a new token to the portofolio
+    * @dev To add a new token to the portoolio
     * @param address_ The token contract address
     **/
     function add_token(bytes32 symbol_, address address_) public onlyOwner returns (bool) {  
@@ -56,9 +56,24 @@ contract Portfolio  is Ownable, Pausable {
         require(tokens[symbol_] != address(0x0));  
   
         delete(tokens[symbol_]);
-  
+
         return true;  
     } 
+
+    /**  
+    * @dev 
+    * @param symbol_ The token symbol used for mapping to the token contract
+    **/
+    function balanceOf(bytes32 symbol_) public whenNotPaused returns(uint256) {
+        address contract_ = tokens[symbol_];
+
+        ERC20Interface = ERC20(contract_);
+        
+        uint256 amount = ERC20Interface.balanceOf(msg.sender);
+
+        return amount;
+    }
+    
 
     /**  
     * @dev To tranfer ERC20 tokens to other adresses
