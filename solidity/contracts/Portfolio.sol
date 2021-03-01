@@ -33,7 +33,7 @@ contract Portfolio  is Ownable, Pausable {
     // Transfer events
     event TransferSuccessful(address indexed from_, address indexed to_, uint256 amount_);   
     event TransferFailed(address indexed from_, address indexed to_, uint256 amount_);
-    event balance(bytes32 symbol_, uint256 amount_)
+    event balance(bytes32 symbol_, uint256 amount_);
 
     constructor() public {
     }
