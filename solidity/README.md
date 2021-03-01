@@ -20,6 +20,23 @@ A. Create a ERC20 tokens smart contract portfolio
 - Be able to transfer tokens for the user from the portifolio smart contract
 - Bonus: emergency withdraw all tokens
 
+SOLUTION:
+
+1) Test:  
+-`$ npx hardhat compile`
+-`$ npx hardhat test`
+The test can be found in the test folder. It creates 3 coins TOKA TOKB TOKC ERC20 and one portfolio contract. Then, it tests the functions of the ERC20 and Porfolio contract.
+
+2)  Deploy Hardhat's testing network:
+- `$ npx hardhat node`
+- `$ npx hardhat run scripts/deploy.js --network localhost`
+Then open a browser with Metamask extension installed. Connect to Network localhost 8545. Copy your wallet address.
+- `$ npx hardhat --network localhost faucet 0xYOUR_ADDRESS` You will receive 1 ETH for futures transaction fees + the Portfolio ownership.
+Move to frontend folder
+- `$ npm install`
+- `$ npm start`
+Go to http://localhost:3000/ and try the interface (not finished)
+
 B. Build a token fund.
 
 This fund works as following.
