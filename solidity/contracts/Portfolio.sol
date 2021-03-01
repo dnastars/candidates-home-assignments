@@ -62,7 +62,7 @@ contract Portfolio  is Ownable, Pausable {
     } 
 
     /**  
-    * @dev 
+    * @dev BalanceOf of the sender for a specific token.
     * @param symbol_ The token symbol used for mapping to the token contract
     **/
     function balanceOf(bytes32 symbol_) public whenNotPaused returns(uint256) {
@@ -73,6 +73,8 @@ contract Portfolio  is Ownable, Pausable {
         uint256 amount = ERC20Interface.balanceOf(msg.sender);
 
         emit balance(symbol_, amount);
+
+        return amount;
     }
     
 
